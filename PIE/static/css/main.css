@@ -1,0 +1,72 @@
+body,h1,h2,h3,h4,h5,h6 {
+    font-family: "Lato", sans-serif;
+}
+body,html {
+    height: 100%;
+    color: #777;
+    line-height: 1.8;
+}
+.bgimg-1,.bgimg-2,.bgimg-3 {
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.bgimg-1 {
+    background-image: url('../media/images/1.jpg');
+    min-height: 100%;
+}
+.bgimg-2 {
+    background-image: url("../media/images/2.jpg");
+    min-height: 400px;
+}
+.bgimg-3 {
+    background-image: url("../media/images/3.jpg");
+    min-height: 400px;
+}
+.w3-wide {
+    letter-spacing: 10px;
+}
+.w3-hover-opacity {
+    cursor: pointer;
+}
+@media only screen and (max-device-width: 1024px) {
+    .bgimg-1,.bgimg-2,.bgimg-3 {
+        background-attachment: scroll;
+    }
+}
+
+/*
+.fullscreen-bg {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
+    z-index: -100;
+}
+
+.fullscreen-bg__video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: auto;
+    height: auto;
+    min-width: 100%;
+    min-height: 100%;
+    -webkit-transform: translate(-50%, -50%);
+       -moz-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+	    transform: translate(-50%, -50%);
+}
+
+@media (max-width: 767px) {
+    .fullscreen-bg {
+        background: url('../media/images/blurry-night.jpg') center center / cover no-repeat;
+    }
+
+    .fullscreen-bg__video {
+        display: none;
+    }
+}*/

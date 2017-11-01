@@ -1,0 +1,14 @@
+{% extends 'base_accounts.html' %}
+
+{% block title %}Adaugare film - URL{% endblock %}
+
+
+
+{% block card_body %}
+    <form method="post" novalidate>
+        {% csrf_token %}
+        {% include 'includes/form.html' %}
+        {{ result }}
+        <button type="submit" class="btn btn-success">Trimite</button>
+    </form>
+{% endblock %}

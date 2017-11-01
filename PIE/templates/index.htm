@@ -1,0 +1,252 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>League of Films</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="media/images/favicon.png">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/app.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<body>
+
+<!--Navigation bar-->
+<div class="top">
+    <!--Navigation bar-ul pe ecrane normale-->
+    <div class="bar" id="nSticky">
+        <a class="bar-item button hover-black hide-medium hide-large right" href="javascript:void(0);"
+           onclick="toggle()"><i class="fa fa-bars"></i></a>
+
+
+        <a href="#" class="bar-item button text-white"><i class="fa fa-home"></i> ACASĂ</a>
+        <a href="#movies" class="bar-item button hide-small text-white"><i class="fa fa-film"></i> FILME</a>
+        <a href="#tickets" class="bar-item button hide-small text-white"><i class="fa fa-ticket"></i> REZERVARE</a>
+        <a href="#contact" class="bar-item button hide-small text-white"><i class="fa fa-envelope"></i> CONTACT</a>
+        {% if user.is_authenticated %}
+            <a href="{% url 'myAccount' %}" class="bar-item button hide-small text-white right"><i
+                    class="fa fa-user-circle-o"></i> {{ user.username }}</a>
+
+        {% else %}
+            <form class="form-inline ml-auto">
+                <a href="{% url 'login' %}" class="bar-item button hide-small text-white right"><i
+                        class="fa fa-sign-in"></i> LOGARE</a>
+                <a href="{% url 'signup' %}" class="bar-item button hide-small text-white right"><i class="fa fa-user"
+                                                                                                    aria-hidden="true"></i>
+                    INREGISTRARE</a>
+            </form>
+        {% endif %}
+    </div>
+
+    <!--Navigation bar-ul pe ecrane mici-->
+    <div id="mSticky" class="bar-block black hide hide-large hide-medium">
+        <a href="#movies" class="bar-item button" onclick="toggle()"><i class="fa fa-film"></i> FILME</a>
+        <a href="#tickets" class="bar-item button" onclick="toggle()"><i class="fa fa-ticket"></i> REZERVARE</a>
+        <a href="#contact" class="bar-item button" onclick="toggle()"><i class="fa fa-envelope"></i> CONTACT</a>
+        <a href="#" class="bar-item button"><i class="fa fa-search"></i> CAUTARE</a>
+    </div>
+</div>
+
+<!--Prima pagina/Prima imagine-->
+<div class="bgimg-1 display-container" id="home">
+    <div class="display-middle" style="white-space:nowrap;">
+        <span class="center padding-large black xlarge wide animate-opacity hide-small">LEAGUE OF FILMS</span>
+        <span class="center padding-large black xlarge wide animate-opacity hide-medium hide-large">L O F</span>
+    </div>
+</div>
+
+<!--Sectiunea cu filme -->
+<div class="content container padding-64" id="movies">
+    <h3 class="center">Filme</h3>
+    <p class="center"><em><b>Interval 12/12/2017 - 19/12/2017.</em></b></p><br>
+
+    <!--Movie grid-->
+    <div class="row-padding center">
+        {% for film in filme %}
+            <div class="col m3">
+                <img src="{{ film.imagine }}" style="width:75%" class="hover-opacity" onclick="onClick(this)"
+                     alt="{{ film.titlu }}">
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class=" row-padding center section">
+        <div class="col m3">
+            <img src="{% static 'media/movies/5.jpg' %}" style="width:75%" onclick="onClick(this)" class="hover-opacity"
+                 alt="The dark tower">
+        </div>
+
+        <div class="col m3">
+            <img src="{% static 'media/movies/6.jpg' %}" style="width:75%" onclick="onClick(this)" class="hover-opacity"
+                 alt="Logan">
+        </div>
+
+        <div class="col m3">
+            <img src="{% static 'media/movies/7.jpg' %}" style="width:75%" onclick="onClick(this)" class="hover-opacity"
+                 alt="Flatliners">
+        </div>
+
+        <div class="col m3">
+            <img src="{% static 'media/movies/8.jpg' %}" style="width:75%" onclick="onClick(this)" class="hover-opacity"
+                 alt="Baywatch">
+        </div>
+        <button class="button grey" style="margin-top:50px">MAI MULTEE</button>
+    </div>
+</div>
+
+<!--Modal cu detalii-->
+
+<div id="modal" class="modal card-4" onclick="this.style.display='none'"
+     style="position: fixed;width: 100%; height: 100%;">
+    <div class="modal-content animate-bottom"
+         style="background-color: rgba(0,0,0,0.9); width: 100%; bottom:0; position: fixed">
+        <div class="container">
+                <span class="display-topright text-white padding hover-text-red" title="Close"><i
+                        class="fa fa-remove"></i></span>
+
+
+            <div class="row">
+                <div class="col container hide-small hide-medium" style="width:185px">
+                    <img id="image" class="image display-topleft margin" style="height: 90%">
+                </div>
+
+                <div class="rest container">
+                    <div class="half justify">
+                        <p id="caption" class="large margin text-white"></p>
+                        <p id="description" class ="text-white"></p>
+                        <a id = "link_IMDB" class="large margin text-white" href="#"><i
+                                class="fa fa-imdb">IMDB</i></a>
+                        <a class="large margin text-white"><i
+                                class="fa fa-calendar-o">{{ current_film.data_lansare }}</i></a>
+                        <a class="large margin text-white"><i
+                                class="fa fa-star-o">{{ current_film.rating }}</i></a>
+
+                    </div>
+                    <div class="half hide-small center">
+                        <iframe height="250" width="80%"
+                                src="https://www.youtube.com/embed/gi1D-qMgdDc?rel=0&amp;showinfo=0" frameborder="0"
+                                allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+<!--Rezervare-->
+<div class="bgimg-2 display-container">
+    <div class="display-middle">
+        <span class="xxlarge text-white wide">REZERVARE</span>
+    </div>
+</div>
+<!-- Container (About Section) -->
+<div class="content container padding-64" id="tickets">
+    <h3 class="center">REZERVARE</h3>
+    <p class="center"><em>Lorem ipsum</em></p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vestibulum justo nisi, volutpat semper est
+        consequat et. Nunc sed leo ut ipsum mattis ullamcorper. Aenean eros augue, dignissim pretium ipsum quis,
+        mollis
+        viverra mauris. Morbi suscipit leo quis velit facilisis pharetra a sed orci. Suspendisse interdum placerat
+        erat,
+        non rhoncus ipsum posuere aliquam. Mauris pharetra ultrices nisi sit amet vulputate. Etiam luctus lectus mi,
+        sed
+        auctor orci gravida iaculis. Integer sed risus accumsan, iaculis odio interdum, lacinia metus. Orci varius
+        natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nunc aliquam urna non elit
+        efficitur
+        fermentum. Aenean tempus tempor fermentum. Etiam tempus ultrices velit, non feugiat eros malesuada non.
+        Curabitur eget mi sit amet leo mattis rutrum a quis arcu. Cras eget diam enim. Aliquam et vestibulum ex, ut
+        fringilla urna.
+        In lobortis felis ut lectus accumsan, a egestas odio imperdiet. Cras elementum nisi accumsan, imperdiet ex
+        ac,
+        maximus mi. In viverra non nulla et laoreet. Praesent rutrum nunc magna. Nulla ac tincidunt dui. Nullam
+        iaculis
+        condimentum nisi, ac vestibulum nisl hendrerit eget. Phasellus metus erat, elementum mollis nulla sed,
+        accumsan
+        commodo quam.
+        Sed laoreet placerat tincidunt. Ut eu velit dolor. Ut interdum ligula sit amet neque tristique cursus. Donec
+        eget orci elementum, sollicitudin lectus eget, fringilla tortor. Fusce ut justo velit. Fusce sed pulvinar
+        tortor, in luctus nibh. Pellentesque euismod rutrum tempor. Pellentesque eu rutrum sem, quis eleifend neque.
+        Donec id odio ligula. Vivamus blandit urna felis, eget cursus elit euismod at. Phasellus blandit metus
+        cursus
+        ligula faucibus bibendum. Donec volutpat consequat dolor ac tincidunt. Nullam varius justo nec ante commodo,
+        a
+        ornare turpis vulputate.
+        Integer dapibus consequat lorem eu auctor. Ut tristique dolor vitae auctor varius. Pellentesque dapibus
+        pretium
+        sagittis. Donec gravida id diam a tincidunt. Integer auctor leo a libero posuere euismod. Ut eu sagittis
+        ligula,
+        consectetur finibus enim. Pellentesque sollicitudin fermentum felis, nec lobortis augue hendrerit ac.
+        Phasellus libero elit, gravida sit amet nisl pellentesque, consectetur imperdiet odio. Ut fringilla
+        tincidunt
+        facilisis. Suspendisse varius aliquam viverra. Duis ultrices ligula et aliquet commodo. Phasellus varius
+        sodales
+        dui nec finibus. Duis ut nunc magna. Nunc maximus viverra bibendum. Cras accumsan, urna ac pharetra
+        condimentum,
+        sapien massa posuere neque, eget aliquam nisl elit vitae quam. Suspendisse potenti. Suspendisse tempor sem
+        quam,
+        non blandit sem fermentum id. Sed posuere faucibus consequat. Maecenas ut lorem sit amet augue rhoncus
+        laoreet
+        quis ut ex. Nam vel lorem nec turpis volutpat eleifend eget nec odio.</p>
+</div>
+
+<!--Contact-->
+<div class="bgimg-3 display-container">
+    <div class="display-middle">
+        <span class="xxlarge text-white wide">CONTACT</span>
+    </div>
+</div>
+
+<!--Harta, adresă, email-->
+<div class="content container padding-64" id="contact">
+    <h3 class="center">Unde ne gasiți?</h3>
+    <div class="row padding-32 section">
+        <div class="col m4 container">
+            <div id="googleMap" class="round-large green" style="width:100%;height:400px;"></div>
+        </div>
+        <div class="col m8 panel">
+            <div class="large margin-bottom">
+                <i class="fa fa-map-marker fa-fw hover-text-black xlarge margin-right"></i> Galați, RO<br>
+                <i class="fa fa-phone fa-fw hover-text-black xlarge margin-right"></i> Telefon: +40 0778889990<br>
+                <i class="fa fa-envelope fa-fw hover-text-black xlarge margin-right"></i> Email:
+                leagueoffilms@yahoo.com<br>
+            </div>
+            <p>Doriți să raportați ceva sau doriți să ne transmiteți un mesaj?</p>
+            <form action="script_trimis_mesaj" target="_blank">
+                <div class="row-padding" style="margin:0 -16px 10px -16px">
+                    <div class="half">
+                        <input class="input border" type="text" placeholder="Numele și prenumele" required
+                               name="name">
+                    </div>
+                    <div class="half">
+                        <input class="input border" type="text" placeholder="Email" required name="email">
+                    </div>
+                </div>
+                <input class="input border" type="text" placeholder="Mesajul dumneavostră" required name="message">
+                <button class="button black right section" type="submit"><i class="fa fa-paper-plane"></i> Trimite
+                    mesaj
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--Footer-->
+<footer class="center black padding">
+    <a href="#home" class=" right"><i class="fa fa-arrow-circle-up"></i></a>
+    <div class="xlarge section">
+        <i class="fa fa-envelope hover-opacity padding"></i>
+        <i class="fa fa-facebook-official hover-opacity padding"></i>
+        <i class="fa fa-twitter hover-opacity padding"></i>
+        <i class="fa fa-bell hover-opacity padding"></i>
+    </div>
+</footer>
+<script src="{% static 'script/index.js' %}"></script>
+</body>
+</html>

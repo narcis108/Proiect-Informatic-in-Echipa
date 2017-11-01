@@ -1,0 +1,27 @@
+{% extends 'base_accounts.html' %}
+
+{% block title %}Log in to Django Boards{% endblock %}
+
+{% block page_header %}<h2><br><br></h2>{% endblock %}
+{% block card_body %}
+    <h3>Logare</h3>
+    <form method="post" novalidate>
+        {% csrf_token %}
+        {% include 'includes/form.html' %}
+        <button type="submit" class="btn btn-primary btn-block">Trimite</button>
+    </form>
+{% endblock %}
+{% block card_footer %}
+    <div class="card-footer text-muted text-center">
+        Nu ai cont? <a href="{% url 'signup' %}">Inregistreaza-te</a>
+    </div>
+{% endblock %}
+{% block end %}
+    <div class="text-center py-2">
+        <small>
+            <a href="{% url 'password_reset' %}" class="text-muted">Ti-ai uitat parola?</a>
+        </small>
+    </div>
+{% endblock %}
+
+

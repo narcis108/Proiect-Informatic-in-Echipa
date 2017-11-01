@@ -1,0 +1,24 @@
+{% extends 'base_accounts.html' %}
+
+{% load static %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/accounts.css' %}">
+{% endblock %}
+
+
+{% block page_header %}<h2>Inregistrare League of Films</h2>{% endblock %}
+{% block card_body %}
+    <h3 class="card-title">Inregistrare</h3>
+    <form method="post" novalidate>
+        {% csrf_token %}
+        {% include 'includes/form.html' %}
+        <button type="submit" class="btn btn-primary btn-block">Create an account</button>
+    </form>
+{% endblock %}
+{% block card_footer %}
+    <div class="card-footer text-muted text-center">
+        Ai deja un cont? <a href="{% url 'login' %}">Logheaza-te</a>
+    </div>
+{% endblock %}
+
